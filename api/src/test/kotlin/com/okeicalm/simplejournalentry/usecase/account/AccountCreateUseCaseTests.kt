@@ -2,6 +2,7 @@ package com.okeicalm.simpleJournalEntry.usecase.account
 
 import com.okeicalm.simpleJournalEntry.entity.Account
 import com.okeicalm.simpleJournalEntry.repository.AccountRepository
+import com.okeicalm.simpleJournalEntry.valueobject.AccountElementType
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
@@ -17,8 +18,8 @@ class AccountCreateUseCaseTests : DescribeSpec({
     }
 
     describe("call") {
-        val input = AccountCreateUseCaseInput("code", "name", 1)
-        val account = Account(code = "code", name = "name", elementType = 1)
+        val input = AccountCreateUseCaseInput("code", "name", AccountElementType.EXPENSES)
+        val account = Account(code = "code", name = "name", elementType = AccountElementType.EXPENSES)
 
         every { repository.create(account) } returns account.copy(id = 1)
         every { repository.findById(1) } returns account.copy(id = 1)
@@ -28,7 +29,7 @@ class AccountCreateUseCaseTests : DescribeSpec({
             output.account.id.shouldBe(1)
             output.account.code.shouldBe("code")
             output.account.name.shouldBe("name")
-            output.account.elementType.shouldBe(1)
+            output.account.elementType.shouldBe(AccountElementType.EXPENSES)
         }
     }
 })
